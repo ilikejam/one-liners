@@ -1,0 +1,26 @@
+#!/usr/bin/perl -w
+# Bind to a port
+
+use strict;
+use warnings;
+
+use IO::Socket;
+
+if ($#ARGV != 0) {
+	die "Port number expected";
+}
+
+my $PORT = $ARGV[0];
+
+my $server = IO::Socket::INET->new(
+	Proto     => 'tcp',
+	LocalPort => $PORT,
+	Listen    => 5,
+	Reuse     => 1 )
+	or die "can't setup server";
+
+print "SERVER Waiting for client connection on port ".$PORT."\n";
+
+while (my $client = $server->accept()) {
+	;
+}
