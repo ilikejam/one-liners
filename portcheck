@@ -1,0 +1,18 @@
+#! /bin/sh
+# Check for processes using a port on old Sun boxes
+port=$*
+if [ "X$port" = "X" ]
+then
+    echo "which port?> "
+    read port
+fi
+
+echo "checking for a process using port $port"
+for pid in `ps -ef -o pid | tail +2`
+do
+    foundport=`/usr/proc/bin/pfiles $pid 2>&1 | grep "sockname:" | grep "port: $port$"`
+    if [ "$foundport" != "" ]
+    then
+        echo "proc: $pid, $foundport"
+    fi
+done
