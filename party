@@ -1,0 +1,20 @@
+#!/bin/bash
+# xterm party mode
+
+A=0
+F="0.1"
+
+( while true
+do
+    [ $A == 628318 ] && A=0 || A=$((A + 1))
+    Ab=$((628318 - $A))
+    R=$(echo "s ($F*$A + 0)*127 + 128" | bc -l | cut -d'.' -f1)
+    B=$(echo "s ($F*$A + 2)*127 + 128" | bc -l | cut -d'.' -f1)
+    G=$(echo "s ($F*$A + 4)*127 + 128" | bc -l | cut -d'.' -f1)
+    Rb=$(echo "s ($F*$Ab + 0)*127 + 128" | bc -l | cut -d'.' -f1)
+    Bb=$(echo "s ($F*$Ab + 2)*127 + 128" | bc -l | cut -d'.' -f1)
+    Gb=$(echo "s ($F*$Ab + 4)*127 + 128" | bc -l | cut -d'.' -f1)
+    printf "\033]10;#%02x%02x%02x\007" $R $B $G
+    printf "\033]11;#%02x%02x%02x\007" $Rb $Bb $Gb
+    sleep 0.1
+done ) &
