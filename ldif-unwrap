@@ -1,0 +1,2 @@
+#!/bin/bash
+sed -n ':loop N; s/\n //; t loop; P; D'
