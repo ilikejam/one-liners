@@ -1,0 +1,27 @@
+#!/bin/bash
+if [ -z "$1" ] || [ -z "$2" ]
+then
+    echo
+    echo usage: $0 network-interface interval
+    echo
+    echo e.g. $0 eth0 5
+    echo
+    exit
+fi
+
+IF=$1
+
+while true
+do
+    DATE=`date +%Y-%m-%dT%H:%M:%S | tr -d '\n'`
+    R1=`cat /sys/class/net/$1/statistics/rx_bytes`
+    T1=`cat /sys/class/net/$1/statistics/tx_bytes`
+    sleep $2
+    R2=`cat /sys/class/net/$1/statistics/rx_bytes`
+    T2=`cat /sys/class/net/$1/statistics/tx_bytes`
+    TBPS=`expr $T2 - $T1`
+    RBPS=`expr $R2 - $R1`
+    TKBPS=`expr $TBPS / \( $2 \* 1024 \)`
+    RKBPS=`expr $RBPS / \( $2 \* 1024 \)`
+    printf '%s %7s %s %7s %s\n' "$1 $DATE tx:" $TKBPS "kB/s rx:" $RKBPS "kB/s"
+done
