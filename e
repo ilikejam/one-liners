@@ -2,6 +2,7 @@
 # Script to calculate e to an arbitrary number of decimal places.
 # Result is rounded to that precision.
 # v0.1 David Stark dave@davidstark.name 2012-06-06
+# https://news.ycombinator.com/item?id=4072637
 
 if [ $# -ne 1 ] || [ -z $1 ] || [ ! -z `echo $1 | tr -d '[0-9]'` ]
 then
