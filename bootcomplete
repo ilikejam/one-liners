@@ -1,0 +1,7 @@
+#!/bin/bash
+if pgrep -x systemd
+then
+    systemctl status multi-user.target
+else
+    [ $(echo `date +%s` - `date -r /var/lock/subsys/local +%s` | bc) -lt $(awk -F'.' '{print $1}' /proc/uptime) ]
+fi
