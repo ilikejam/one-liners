@@ -1,7 +1,10 @@
 #!/bin/bash
+# Test whether a redhat-ish machine has finished booting
+# Returns 0 for finished, anything else for not.
 if pgrep -x systemd
 then
     systemctl status multi-user.target
 else
-    [ $(echo `date +%s` - `date -r /var/lock/subsys/local +%s` | bc) -lt $(awk -F'.' '{print $1}' /proc/uptime) ]
+    [ ! -f /var/lock/subsys/local ] || \
+    [ $(echo `date +%s` - `date -r /var/lock/subsys/local +%s` | bc) -gt $(awk -F'.' '{print $1}' /proc/uptime) ]
 fi
