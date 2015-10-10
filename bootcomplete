@@ -6,5 +6,5 @@ then
     systemctl status multi-user.target
 else
     [ ! -f /var/lock/subsys/local ] || \
-    [ $(echo `date +%s` - `date -r /var/lock/subsys/local +%s` | bc) -gt $(awk -F'.' '{print $1}' /proc/uptime) ]
+    [ $(echo `date +%s` - `date -r /var/lock/subsys/local +%s` | bc) -lt $(awk -F'.' '{print $1}' /proc/uptime) ]
 fi
