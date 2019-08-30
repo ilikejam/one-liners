@@ -1,0 +1,12 @@
+#!/bin/bash
+
+while read go
+do
+    input="$input
+$go"
+done
+input="$(echo "$input" | sed '1d')"
+tot=$(echo "$input" | colsum)
+lines=$(echo "$input" | wc -l)
+echo "$tot / $lines" | bc -l | tr -d '\\' | tr -d '\n'
+echo
