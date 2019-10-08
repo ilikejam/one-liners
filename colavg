@@ -1,11 +1,11 @@
 #!/bin/bash
 
 trap 'rm -rf -- "$TMP"' EXIT
-TMP=$(mktemp -d)
-mkfifo $TMP/fifo
-wc -l $TMP/fifo > $TMP/wc &
-TOT=$(tee $TMP/fifo | colsum)
+TMP="$(mktemp -d)"
+mkfifo "$TMP/fifo"
+wc -l "$TMP/fifo" > "$TMP/wc" &
+TOT=$(tee "$TMP/fifo" | colsum)
 wait
-LINES=$(awk '{print $1}' $TMP/wc)
+LINES=$(awk '{print $1}' "$TMP/wc")
 echo "$TOT / $LINES" | bc -l | tr -d '\\' | tr -d '\n'
 echo
